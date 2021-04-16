@@ -44,7 +44,7 @@ exports.main = function main(args, callback) {
             "force-message": "strict-message"
         },
         string: [ "target", "out", "path", "wrap", "dependency", "root", "lint" ],
-        boolean: [ "create", "encode", "decode", "verify", "convert", "delimited", "beautify", "comments", "es6", "sparse", "keep-case", "force-long", "force-number", "force-enum-string", "force-message" ],
+        boolean: [ "create", "encode", "decode", "verify", "convert", "delimited", "beautify", "comments", "es6", "sparse", "keep-case", "force-long", "force-number", "force-enum-string", "force-message", "alternate-comment-mode" ],
         default: {
             target: "json",
             create: true,
@@ -61,7 +61,8 @@ exports.main = function main(args, callback) {
             "force-long": false,
             "force-number": false,
             "force-enum-string": false,
-            "force-message": false
+            "force-message": false,
+            "alternate-comment-mode": false,
         }
     });
 
@@ -140,6 +141,9 @@ exports.main = function main(args, callback) {
                 "  --force-number   Enfores the use of 'number' for s-/u-/int64 and s-/fixed64 fields.",
                 "  --force-message  Enfores the use of message instances instead of plain objects.",
                 "",
+                "  --alternate-comment-mode Saves your non js-style comments in compiled code.",
+                "",
+                "",
                 "usage: " + chalk.bold.green("pbjs") + " [options] file1.proto file2.json ..." + chalk.gray("  (or pipe)  ") + "other | " + chalk.bold.green("pbjs") + " [options] -",
                 ""
             ].join("\n"));
@@ -200,7 +204,8 @@ exports.main = function main(args, callback) {
     }
 
     var parseOptions = {
-        "keepCase": argv["keep-case"] || false
+        "keepCase": argv["keep-case"] || false,
+        "alternateCommentMode": argv["alternate-comment-mode"] || false
     };
 
     // Read from stdin
